@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "outlook-classic-mcp"
+dynamic = ["version"]
+description = "Local Outlook Classic full-text SQLite FTS5 indexer with read-only MCP server"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+urls = { Homepage = "https://github.com/koenvaneijk/outlook-classic-mcp" }
+dependencies = [
+  "mcp>=2.0,<3.0",
+  "pywin32>=306,<400; sys_platform == 'win32'",
+]
+
+[project.optional-dependencies]
+tray = [
+  "pystray>=0.19.5,<1.0",
+  "Pillow>=10,<13",
+  "psutil>=5.9,<8",
+]
+dev = [
+  "pytest>=8",
+]
+
+[tool.setuptools]
+packages = ["outlook_classic_mcp"]
+
+[tool.setuptools.dynamic]
+version = { attr = "outlook_classic_mcp.__version__" }
+
+[project.scripts]
+outlook-index = "outlook_classic_mcp.worker:main"
+outlook-search-tray = "outlook_classic_mcp.tray:main"
+outlook-open-mail = "outlook_classic_mcp.open_message:main"
